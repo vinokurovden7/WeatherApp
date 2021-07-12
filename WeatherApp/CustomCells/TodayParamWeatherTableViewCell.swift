@@ -12,11 +12,10 @@ class TodayParamWeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var imageSymbol: UIImageView!
     
-    static let identifier = "TableViewCell"
+    static let identifier = "TodayParamWeatherTableViewCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

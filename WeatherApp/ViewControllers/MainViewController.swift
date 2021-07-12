@@ -30,10 +30,15 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        firstSetup()
+    }
+    
+    //MARK: Custom func
+    fileprivate func firstSetup() {
         tapScrollViewGesture.numberOfTapsRequired = 1
         tapScrollViewGesture.numberOfTouchesRequired = 1
         tapScrollViewGesture.addTarget(self, action: #selector(touchOnScrollView(_:)))
-//        mainScrollView.addGestureRecognizer(tapScrollViewGesture)
+        //        mainScrollView.addGestureRecognizer(tapScrollViewGesture)
         
         citySearchBar.delegate = self
         
@@ -52,13 +57,13 @@ class MainViewController: UIViewController {
         dopParamWeatherTableView.delegate = self
         dopParamWeatherTableView.dataSource = self
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleHideKeyboard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         weatherViewModel = WeatherViewModel()
         getWeather()
     }
     
-    //MARK: IBActions
-
-    //MARK: Custom func
     private func getWeather(from city: String = "Нижняя Тура") {
         guard let weatherViewModel = weatherViewModel else {
             return
@@ -78,10 +83,20 @@ class MainViewController: UIViewController {
     }
     
     //MARK: OBJC func
-    @objc func touchOnScrollView(_ sneder: UITapGestureRecognizer) {
+    @objc private func touchOnScrollView(_ sneder: UITapGestureRecognizer) {
         self.view.endEditing(false)
     }
     
+    @objc private func handleShowKeyboard(_ notification: Notification) {
+        if let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let inset = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)
+            mainScrollView.contentInset = inset
+        }
+    }
+    
+    @objc private func handleHideKeyboard(_ notification: Notification) {
+        mainScrollView.contentInset = .zero
+    }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
@@ -108,14 +123,17 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MainViewController: UISearchBarDelegate {
     
-    //Обработчик кнопки "отмена"
-    func searchBarCancelButtonClicked(_ textURL: UISearchBar) {
-        self.view.endEditing(true)
-        textURL.setShowsCancelButton(false, animated: true)
+    func searchBarTextDidBeginEditing(_ searchTextBar: UISearchBar) {
+        searchTextBar.setShowsCancelButton(true, animated: true)
     }
     
-    //Обработчик нажатия на кнопку "Найти" на клавиатуре, когда вводим в что-то в адресную строку
+    func searchBarCancelButtonClicked(_ searchTextBar: UISearchBar) {
+        self.view.endEditing(true)
+        searchTextBar.setShowsCancelButton(false, animated: true)
+    }
+    
     func searchBarSearchButtonClicked(_ searchTextBar: UISearchBar) {
+        searchTextBar.setShowsCancelButton(false, animated: true)
         if searchTextBar.text?.isEmpty ?? true {
             view.endEditing(false)
             return

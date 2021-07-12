@@ -76,24 +76,72 @@
 		920A4B5A2696DC8A0088279C /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				920A4B7D269840CC0088279C /* TodayParamWeatherTableViewCell.swift */,
-				920A4B7E269840CC0088279C /* TodayParamWeatherTableViewCell.xib */,
-				920A4B5B2696DC8A0088279C /* AppDelegate.swift */,
-				920A4B5D2696DC8A0088279C /* SceneDelegate.swift */,
-				920A4B732696FA850088279C /* WeatherData.swift */,
-				920A4B712696F7FC0088279C /* NetworkManager.swift */,
-				920A4B612696DC8A0088279C /* Main.storyboard */,
-				920A4B87269880A40088279C /* DaysCollectionViewCell.swift */,
-				920A4B88269880A40088279C /* DaysCollectionViewCell.xib */,
-				920A4B7926976C710088279C /* MainViewController.swift */,
-				920A4B7B2698104F0088279C /* WeatherViewModel.swift */,
+				92482907269C0506000D71C3 /* ViewModels */,
+				92482906269C04F7000D71C3 /* ViewControllers */,
+				92482905269C04E8000D71C3 /* DefaultClasses */,
+				92482904269C03FA000D71C3 /* Network */,
+				92482903269C03EB000D71C3 /* CustomCells */,
+				92482902269C03C6000D71C3 /* XibStoryboard */,
 				920A4B642696DC8E0088279C /* Assets.xcassets */,
-				920A4B662696DC8E0088279C /* LaunchScreen.storyboard */,
 				920A4B692696DC8E0088279C /* Info.plist */,
-				920A4B83269855F90088279C /* DayWeatherCollectionViewCell.swift */,
-				920A4B84269855F90088279C /* DayWeatherCollectionViewCell.xib */,
 			);
 			path = WeatherApp;
+			sourceTree = "<group>";
+		};
+		92482902269C03C6000D71C3 /* XibStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				920A4B7E269840CC0088279C /* TodayParamWeatherTableViewCell.xib */,
+				920A4B612696DC8A0088279C /* Main.storyboard */,
+				920A4B88269880A40088279C /* DaysCollectionViewCell.xib */,
+				920A4B662696DC8E0088279C /* LaunchScreen.storyboard */,
+				920A4B84269855F90088279C /* DayWeatherCollectionViewCell.xib */,
+			);
+			path = XibStoryboard;
+			sourceTree = "<group>";
+		};
+		92482903269C03EB000D71C3 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				920A4B7D269840CC0088279C /* TodayParamWeatherTableViewCell.swift */,
+				920A4B87269880A40088279C /* DaysCollectionViewCell.swift */,
+				920A4B83269855F90088279C /* DayWeatherCollectionViewCell.swift */,
+			);
+			path = CustomCells;
+			sourceTree = "<group>";
+		};
+		92482904269C03FA000D71C3 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				920A4B732696FA850088279C /* WeatherData.swift */,
+				920A4B712696F7FC0088279C /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		92482905269C04E8000D71C3 /* DefaultClasses */ = {
+			isa = PBXGroup;
+			children = (
+				920A4B5B2696DC8A0088279C /* AppDelegate.swift */,
+				920A4B5D2696DC8A0088279C /* SceneDelegate.swift */,
+			);
+			path = DefaultClasses;
+			sourceTree = "<group>";
+		};
+		92482906269C04F7000D71C3 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				920A4B7926976C710088279C /* MainViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		92482907269C0506000D71C3 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				920A4B7B2698104F0088279C /* WeatherViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

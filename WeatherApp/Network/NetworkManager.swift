@@ -9,10 +9,14 @@ import Foundation
 class NetworkManager {
     
     private let apiKey = "C8Z97DTMR7Q5A6T966UZK4KWW"
-//    private let baseWeaterAddress = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Nizhnyaya%20Tura?unitGroup=metric&key=C8Z97DTMR7Q5A6T966UZK4KWW"
     private let scheme = "https"
     private let host = "weather.visualcrossing.com"
-
+    
+    /// Получить погоду с сервера
+    /// - Parameters:
+    ///   - city: Город, по которому осуществляется запрос о погоде
+    ///   - completion: замыкание
+    /// - Returns: Данные о погоде
     func getWeather(from city: String, completion: @escaping (WeatherData) -> ()) {
         
         let path = "/VisualCrossingWebServices/rest/services/timeline/\(city)"
@@ -43,7 +47,6 @@ class NetworkManager {
                 let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
                 completion(weatherData)
             } catch {
-                print(data)
                 print(error.localizedDescription)
             }
         }

@@ -22,20 +22,6 @@ class DaysCollectionViewCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             selectedCell(cellIsSelected: isSelected)
-//            if isSelected {
-//                self.backgroundContentView.backgroundColor = UIColor(named: "TextColor")
-//                dayLabel.textColor = UIColor(named: "BackgroundColor")
-//                maxMinTempLabel.textColor = UIColor(named: "BackgroundColor")
-//                chanceOfPrecipitationLabel.textColor = UIColor(named: "BackgroundColor")
-//                backgroundContentView.layer.borderColor = UIColor(named: "BackgroundColor")?.cgColor
-//            } else {
-//                self.backgroundContentView.backgroundColor = UIColor(named: "BackgroundCollectionViewCell")
-//                dayLabel.textColor = UIColor(named: "TextColor")
-//                maxMinTempLabel.textColor = UIColor(named: "TextColor")
-//                chanceOfPrecipitationLabel.textColor = UIColor(named: "TextColor")
-//                backgroundContentView.layer.borderColor = UIColor(named: "TextColor")?.cgColor
-//            }
-            
         }
     }
     
@@ -61,20 +47,20 @@ class DaysCollectionViewCell: UICollectionViewCell {
     func selectedCell(cellIsSelected: Bool) {
         if cellIsSelected {
             self.backgroundContentView.backgroundColor = UIColor(named: "TextColor")
-            dayLabel.textColor = UIColor(named: "BackgroundColor")
-            maxMinTempLabel.textColor = UIColor(named: "BackgroundColor")
-            chanceOfPrecipitationLabel.textColor = UIColor(named: "BackgroundColor")
+            dayLabel.textColor = .systemOrange
+            maxMinTempLabel.textColor = .systemOrange
+            chanceOfPrecipitationLabel.textColor = .systemOrange
             backgroundContentView.layer.borderColor = UIColor(named: "BackgroundColor")?.cgColor
-            tempPlaceHolderLabel.textColor = .systemOrange
-            chancePlaceHolderLabel.textColor = .systemOrange
+            tempPlaceHolderLabel.textColor = UIColor(named: "BackgroundColor")
+            chancePlaceHolderLabel.textColor = UIColor(named: "BackgroundColor")
         } else {
             self.backgroundContentView.backgroundColor = UIColor(named: "BackgroundCollectionViewCell")
-            dayLabel.textColor = UIColor(named: "TextColor")
-            maxMinTempLabel.textColor = UIColor(named: "TextColor")
-            chanceOfPrecipitationLabel.textColor = UIColor(named: "TextColor")
+            dayLabel.textColor = .black
+            maxMinTempLabel.textColor = .black
+            chanceOfPrecipitationLabel.textColor = .black
             backgroundContentView.layer.borderColor = UIColor(named: "TextColor")?.cgColor
-            tempPlaceHolderLabel.textColor = .black
-                chancePlaceHolderLabel.textColor = .black
+            tempPlaceHolderLabel.textColor = UIColor(named: "TextColor")
+            chancePlaceHolderLabel.textColor = UIColor(named: "TextColor")
         }
     }
 

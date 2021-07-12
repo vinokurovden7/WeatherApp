@@ -10,6 +10,11 @@ class WeatherViewModel {
     
     var weatherData: WeatherData?
     
+    /// Получить погоду с сервера
+    /// - Parameters:
+    ///   - city: Город, для которого нужно получить погоду
+    ///   - completion: замыкание
+    /// - Returns: Полученные данные о погоде
     func getWeather(from city: String = "Нижняя Тура", completion: @escaping () -> ()) {
         let networkManager = NetworkManager()
         networkManager.getWeather(from: city) { weatherData in
@@ -19,6 +24,8 @@ class WeatherViewModel {
     }
     
     
+    /// Получить скорость ветра
+    /// - Returns: Скорость ветра
     func getWindSpeedToday() -> String {
         if let weatherData = weatherData {
             if let windSpeed = weatherData.currentConditions.windspeed {
@@ -31,15 +38,19 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить текущую температуру
+    /// - Returns: Словарь температур
     func getTempToday() -> [String:String] {
         var todayWeatherTepmDictionary: [String:String] = [:]
         if let weatherData = weatherData {
             todayWeatherTepmDictionary["temp"] = "\(weatherData.currentConditions.temp)°"
-            todayWeatherTepmDictionary["feelslike"] = "Feels like \(weatherData.currentConditions.feelslike)°"
+            todayWeatherTepmDictionary["feelslike"] = "Ощущается как \(weatherData.currentConditions.feelslike)°"
         }
         return todayWeatherTepmDictionary
     }
     
+    /// Получить изображение для текущей погоды
+    /// - Returns: Наименование изображения
     func getImageToday() -> String {
         if let weatherData = weatherData {
             return weatherData.currentConditions.icon
@@ -48,6 +59,8 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить текстовое описание погоды
+    /// - Returns: Описание погоды
     func getConditions() -> String {
         if let weatherData = weatherData {
             return weatherData.currentConditions.conditions
@@ -56,6 +69,8 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить влажность
+    /// - Returns: Влажность
     func getHumidity() -> String {
         if let weatherData = weatherData {
             return "\(weatherData.currentConditions.humidity)%"
@@ -64,6 +79,8 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить дальность видимости
+    /// - Returns: Дальность видимости
     func getVisisbility() -> String {
         if let weatherData = weatherData {
             if let visibility = weatherData.currentConditions.visibility {
@@ -76,6 +93,8 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить ультрафиолетовый индекс
+    /// - Returns: Ультрафиолетовый индекс
     func getUVIndex() -> String {
         if let weatherData = weatherData {
             if let uvindex = weatherData.currentConditions.uvindex {
@@ -88,6 +107,8 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить название города, относительно которого отображаются данные
+    /// - Returns: Наименование города
     func getCity() -> String {
         if let weatherData = weatherData {
             return "\(weatherData.address)"
@@ -96,6 +117,9 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить дополнительные параметры текущей погоды
+    /// - Parameter row: Номер строки параметра
+    /// - Returns: Значение дополнительного параметра
     func getDopParamWeather(for row: Int) -> String {
         
         switch row {
@@ -128,14 +152,22 @@ class WeatherViewModel {
         return ""
     }
     
+    /// Получить количество дополнительных параметров о текущей погоде
+    /// - Returns: Количество параметров
     func getCountParam() -> Int {
         return 6
     }
     
+    /// Получить массив почасовых данных
+    /// - Parameter day: День, относительно которого получаются почасовые данные
+    /// - Returns: Массив данных по часам
     func getHoursStatistics(from day: Days) -> [Hours] {
         return day.hours.filter({!($0.icon?.isEmpty ?? false)})
     }
     
+    /// Получить один день
+    /// - Parameter index: индекс дня в массиве
+    /// - Returns: День
     func getDay(from index: Int = 0) -> Days? {
         if let weatherData = weatherData {
             return weatherData.days[index]
@@ -144,6 +176,8 @@ class WeatherViewModel {
         }
     }
     
+    /// Получить массив дней
+    /// - Returns: Массив дней
     func getDays() -> [Days] {
         if let weatherData = weatherData {
             return weatherData.days
