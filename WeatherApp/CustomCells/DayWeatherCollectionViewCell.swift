@@ -14,6 +14,7 @@ class DayWeatherCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var averageTempDayWeatherLabel: UILabel!
     @IBOutlet weak var chanceOfPrecipitationDayWeatherLabel: UILabel!
     @IBOutlet weak var mainContentView: UIView!
+    @IBOutlet weak var pressureLabel: UILabel!
     
     static let identifier = "DayWeatherCollectionViewCell"
     
@@ -36,10 +37,14 @@ class DayWeatherCollectionViewCell: UICollectionViewCell {
             iconDayWeather.image = UIImage(named: imageName)
         }
         if let temp = dayWeather.temp {
-            averageTempDayWeatherLabel.text = "\(temp)°"
+            averageTempDayWeatherLabel.text = "\(Int(temp))°"
         }
         if let precipprob = dayWeather.precipprob {
-            chanceOfPrecipitationDayWeatherLabel.text = "\(precipprob)%"
+            chanceOfPrecipitationDayWeatherLabel.text = "\(Int(precipprob))%"
+        }
+        
+        if let pressure = dayWeather.pressure {
+            pressureLabel.text = "\(Int(pressure * 0.750062)) мм рт ст"
         }
     }
 

@@ -29,7 +29,7 @@ class WeatherViewModel {
     func getWindSpeedToday() -> String {
         if let weatherData = weatherData {
             if let windSpeed = weatherData.currentConditions.windspeed {
-                return "\(windSpeed) km/h"
+                return "\(Int(windSpeed)) km/h"
             } else {
                 return "No info"
             }
@@ -43,8 +43,8 @@ class WeatherViewModel {
     func getTempToday() -> [String:String] {
         var todayWeatherTepmDictionary: [String:String] = [:]
         if let weatherData = weatherData {
-            todayWeatherTepmDictionary["temp"] = "\(weatherData.currentConditions.temp)°"
-            todayWeatherTepmDictionary["feelslike"] = "Ощущается как \(weatherData.currentConditions.feelslike)°"
+            todayWeatherTepmDictionary["temp"] = "\(Int(weatherData.currentConditions.temp))°"
+            todayWeatherTepmDictionary["feelslike"] = "Ощущается как \(Int(weatherData.currentConditions.feelslike))°"
         }
         return todayWeatherTepmDictionary
     }
@@ -73,7 +73,7 @@ class WeatherViewModel {
     /// - Returns: Влажность
     func getHumidity() -> String {
         if let weatherData = weatherData {
-            return "\(weatherData.currentConditions.humidity)%"
+            return "\(Int(weatherData.currentConditions.humidity)) %"
         } else {
             return ""
         }
@@ -84,7 +84,7 @@ class WeatherViewModel {
     func getVisisbility() -> String {
         if let weatherData = weatherData {
             if let visibility = weatherData.currentConditions.visibility {
-                return "\(visibility) km"
+                return "\(Int(visibility)) km"
             } else {
                 return "No info"
             }

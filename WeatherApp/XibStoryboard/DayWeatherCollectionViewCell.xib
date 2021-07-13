@@ -11,77 +11,91 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DayWeatherCollectionViewCell" id="gTV-IL-0wX" customClass="DayWeatherCollectionViewCell" customModule="WeatherApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="177" height="177"/>
+            <rect key="frame" x="0.0" y="0.0" width="185" height="130"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="177" height="177"/>
+                <rect key="frame" x="0.0" y="0.0" width="185" height="130"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dsu-0V-Hgi">
-                        <rect key="frame" x="0.0" y="0.0" width="177" height="177"/>
+                        <rect key="frame" x="0.0" y="0.0" width="185" height="130"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="09:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P6e-uL-TYo">
-                                <rect key="frame" x="20" y="5" width="137" height="24"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="17"/>
+                                <rect key="frame" x="20" y="5" width="145" height="17"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="12"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="28°" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c1E-Nb-SOB">
-                                <rect key="frame" x="20" y="103" width="137" height="20"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="14"/>
+                                <rect key="frame" x="45" y="46" width="135" height="17"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="12"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rain-snow-showers-day" translatesAutoresizingMaskIntoConstraints="NO" id="QjN-PA-szL">
-                                <rect key="frame" x="68.5" y="39" width="40" height="40"/>
+                                <rect key="frame" x="5" y="50" width="40" height="40"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="3cb-AY-2gY"/>
                                     <constraint firstAttribute="width" secondItem="QjN-PA-szL" secondAttribute="height" multiplier="1:1" id="CAg-B1-y9t"/>
-                                    <constraint firstAttribute="height" constant="40" id="RvN-sq-mdi"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="db9-Ku-qH3">
-                                <rect key="frame" x="20" y="147" width="137" height="20"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Температура" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAX-LQ-40D">
+                                <rect key="frame" x="45" y="32" width="135" height="14"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="10"/>
+                                <color key="textColor" name="TextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Вероятность осадков" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSQ-Z6-X2z">
+                                <rect key="frame" x="45" y="63" width="135" height="14"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="10"/>
+                                <color key="textColor" name="TextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000 мПа" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="1OX-WZ-KdD">
+                                <rect key="frame" x="45.5" y="108" width="134" height="17"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="12"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Температура" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAX-LQ-40D">
-                                <rect key="frame" x="56.5" y="89" width="64.5" height="14"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Давление" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FI7-41-o5x">
+                                <rect key="frame" x="45" y="94" width="135" height="14"/>
                                 <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="10"/>
                                 <color key="textColor" name="TextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Вероятность осадков" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSQ-Z6-X2z">
-                                <rect key="frame" x="35.5" y="133" width="106.5" height="14"/>
-                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="10"/>
-                                <color key="textColor" name="TextColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="db9-Ku-qH3">
+                                <rect key="frame" x="45.5" y="77" width="134" height="17"/>
+                                <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="12"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" name="BackgroundCollectionViewCell"/>
                         <constraints>
                             <constraint firstItem="bAX-LQ-40D" firstAttribute="centerX" secondItem="c1E-Nb-SOB" secondAttribute="centerX" id="303-v2-8mf"/>
-                            <constraint firstAttribute="trailing" secondItem="c1E-Nb-SOB" secondAttribute="trailing" constant="20" id="76h-cH-w9o"/>
-                            <constraint firstItem="nSQ-Z6-X2z" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Dsu-0V-Hgi" secondAttribute="leading" constant="20" id="8IK-Re-pHc"/>
+                            <constraint firstItem="nSQ-Z6-X2z" firstAttribute="top" secondItem="c1E-Nb-SOB" secondAttribute="bottom" id="3U9-Vh-qf6"/>
                             <constraint firstAttribute="trailing" secondItem="P6e-uL-TYo" secondAttribute="trailing" constant="20" id="8Iu-N7-cHs"/>
-                            <constraint firstItem="QjN-PA-szL" firstAttribute="centerX" secondItem="Dsu-0V-Hgi" secondAttribute="centerX" id="8jS-ud-ZfN"/>
                             <constraint firstItem="P6e-uL-TYo" firstAttribute="top" secondItem="Dsu-0V-Hgi" secondAttribute="top" constant="5" id="9UX-ei-Q57"/>
-                            <constraint firstItem="db9-Ku-qH3" firstAttribute="leading" secondItem="Dsu-0V-Hgi" secondAttribute="leading" constant="20" id="9We-Ho-8Nx"/>
-                            <constraint firstItem="db9-Ku-qH3" firstAttribute="top" secondItem="nSQ-Z6-X2z" secondAttribute="bottom" id="AKi-QO-xRK"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QjN-PA-szL" secondAttribute="trailing" constant="20" id="EDc-Bf-fij"/>
-                            <constraint firstItem="QjN-PA-szL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Dsu-0V-Hgi" secondAttribute="leading" constant="20" id="Ev9-B3-YO6"/>
-                            <constraint firstItem="bAX-LQ-40D" firstAttribute="top" secondItem="QjN-PA-szL" secondAttribute="bottom" constant="10" id="IH2-4E-2Uz"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bAX-LQ-40D" secondAttribute="trailing" constant="20" id="L43-Rq-6sj"/>
-                            <constraint firstItem="bAX-LQ-40D" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Dsu-0V-Hgi" secondAttribute="leading" constant="20" id="LB8-lb-HIZ"/>
-                            <constraint firstItem="c1E-Nb-SOB" firstAttribute="top" secondItem="bAX-LQ-40D" secondAttribute="bottom" id="RtA-nI-Lre"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nSQ-Z6-X2z" secondAttribute="trailing" constant="20" id="U2e-8l-Uo6"/>
+                            <constraint firstAttribute="trailing" secondItem="FI7-41-o5x" secondAttribute="trailing" constant="5" id="Bvk-Bj-z0b"/>
+                            <constraint firstItem="db9-Ku-qH3" firstAttribute="top" secondItem="nSQ-Z6-X2z" secondAttribute="bottom" id="HWL-Bg-ovI"/>
+                            <constraint firstItem="FI7-41-o5x" firstAttribute="centerX" secondItem="bAX-LQ-40D" secondAttribute="centerX" id="JeJ-Hh-AaF"/>
+                            <constraint firstItem="1OX-WZ-KdD" firstAttribute="top" secondItem="FI7-41-o5x" secondAttribute="bottom" id="N7p-R1-blQ"/>
+                            <constraint firstItem="QjN-PA-szL" firstAttribute="leading" secondItem="Dsu-0V-Hgi" secondAttribute="leading" constant="5" id="O8I-SV-u34"/>
+                            <constraint firstItem="QjN-PA-szL" firstAttribute="centerY" secondItem="nSQ-Z6-X2z" secondAttribute="centerY" id="OXq-c7-jtr"/>
+                            <constraint firstItem="c1E-Nb-SOB" firstAttribute="top" secondItem="bAX-LQ-40D" secondAttribute="bottom" id="Qpu-vb-LgK"/>
+                            <constraint firstAttribute="trailing" secondItem="bAX-LQ-40D" secondAttribute="trailing" constant="5" id="ToU-rz-vQz"/>
                             <constraint firstItem="P6e-uL-TYo" firstAttribute="leading" secondItem="Dsu-0V-Hgi" secondAttribute="leading" constant="20" id="UJ6-XM-dl5"/>
-                            <constraint firstItem="c1E-Nb-SOB" firstAttribute="leading" secondItem="Dsu-0V-Hgi" secondAttribute="leading" constant="20" id="W60-xs-bdG"/>
-                            <constraint firstAttribute="trailing" secondItem="db9-Ku-qH3" secondAttribute="trailing" constant="20" id="cKE-nf-UNB"/>
+                            <constraint firstItem="FI7-41-o5x" firstAttribute="centerX" secondItem="1OX-WZ-KdD" secondAttribute="centerX" id="Z05-SG-6gG"/>
+                            <constraint firstItem="FI7-41-o5x" firstAttribute="top" secondItem="db9-Ku-qH3" secondAttribute="bottom" id="dDA-09-T4n"/>
                             <constraint firstItem="nSQ-Z6-X2z" firstAttribute="centerX" secondItem="db9-Ku-qH3" secondAttribute="centerX" id="dxN-1R-7sz"/>
-                            <constraint firstItem="QjN-PA-szL" firstAttribute="top" secondItem="P6e-uL-TYo" secondAttribute="bottom" constant="10" id="mtP-2s-AW3"/>
-                            <constraint firstItem="nSQ-Z6-X2z" firstAttribute="top" secondItem="c1E-Nb-SOB" secondAttribute="bottom" constant="10" id="onU-kU-spy"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="db9-Ku-qH3" secondAttribute="bottom" constant="5" id="yRs-R5-ClF"/>
+                            <constraint firstItem="bAX-LQ-40D" firstAttribute="top" secondItem="P6e-uL-TYo" secondAttribute="bottom" constant="10" id="hq8-vT-Vhw"/>
+                            <constraint firstItem="c1E-Nb-SOB" firstAttribute="width" secondItem="bAX-LQ-40D" secondAttribute="width" id="it4-rE-tT4"/>
+                            <constraint firstItem="nSQ-Z6-X2z" firstAttribute="centerX" secondItem="bAX-LQ-40D" secondAttribute="centerX" id="lF4-Zf-8nZ"/>
+                            <constraint firstAttribute="trailing" secondItem="nSQ-Z6-X2z" secondAttribute="trailing" constant="5" id="lJQ-J1-UUR"/>
+                            <constraint firstItem="db9-Ku-qH3" firstAttribute="width" secondItem="nSQ-Z6-X2z" secondAttribute="width" multiplier="0.995305" id="vRu-5m-ZFc"/>
+                            <constraint firstItem="1OX-WZ-KdD" firstAttribute="width" secondItem="FI7-41-o5x" secondAttribute="width" multiplier="0.995305" id="yC2-vc-iSB"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="1OX-WZ-KdD" secondAttribute="bottom" constant="5" id="ypN-BY-95n"/>
+                            <constraint firstItem="bAX-LQ-40D" firstAttribute="leading" secondItem="QjN-PA-szL" secondAttribute="trailing" id="zdm-mO-XAu"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -93,21 +107,22 @@
                 <constraint firstAttribute="bottom" secondItem="Dsu-0V-Hgi" secondAttribute="bottom" id="ekG-VN-kO4"/>
                 <constraint firstItem="Dsu-0V-Hgi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="jkk-l3-xiw"/>
             </constraints>
-            <size key="customSize" width="177" height="177"/>
+            <size key="customSize" width="185" height="132"/>
             <connections>
                 <outlet property="averageTempDayWeatherLabel" destination="c1E-Nb-SOB" id="oKc-ye-lOQ"/>
                 <outlet property="chanceOfPrecipitationDayWeatherLabel" destination="db9-Ku-qH3" id="a1Q-hT-v3z"/>
                 <outlet property="iconDayWeather" destination="QjN-PA-szL" id="NdG-FY-jtG"/>
                 <outlet property="mainContentView" destination="Dsu-0V-Hgi" id="ikW-Q8-2hl"/>
+                <outlet property="pressureLabel" destination="1OX-WZ-KdD" id="WWU-3m-fNN"/>
                 <outlet property="timeDayWeatherLabel" destination="P6e-uL-TYo" id="Tyg-Yo-WtM"/>
             </connections>
-            <point key="canvasLocation" x="-35.507246376811594" y="-34.486607142857139"/>
+            <point key="canvasLocation" x="-29.710144927536234" y="-49.553571428571423"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="rain-snow-showers-day" width="500" height="495"/>
         <namedColor name="BackgroundCollectionViewCell">
-            <color red="0.39408180268318549" green="0.72475369400729406" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.59320884943008423" green="0.86886972188949585" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="TextColor">
             <color red="0.31799998879432678" green="0.41600000858306885" blue="0.54900002479553223" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

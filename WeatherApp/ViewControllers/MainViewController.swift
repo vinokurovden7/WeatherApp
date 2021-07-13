@@ -20,6 +20,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var dayHoursWeatherCollectionView: UICollectionView!
     @IBOutlet weak var daysCollectionView: UICollectionView!
     @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     //MARK: Variables
     private var weatherViewModel: WeatherViewModel?
@@ -29,8 +30,16 @@ class MainViewController: UIViewController {
     //MARK: Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        activityIndicator.startAnimating()
         firstSetup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let cityName = cityLabel.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+            print(cityName)
+            getWeather(from: cityName)
+        }
     }
     
     //MARK: Custom func
@@ -74,7 +83,9 @@ class MainViewController: UIViewController {
                 self.temperatureLabel.text = weatherViewModel.getTempToday()["temp"]
                 self.fellsLikeLabel.text = weatherViewModel.getTempToday()["feelslike"]
                 self.cityLabel.text = weatherViewModel.getCity()
+                self.conditionsLabel.text = weatherViewModel.getConditions()
                 self.selectedDayIndex = nil
+                self.activityIndicator.stopAnimating()
                 self.dopParamWeatherTableView.reloadData()
                 self.dayHoursWeatherCollectionView.reloadData()
                 self.daysCollectionView.reloadData()
@@ -194,9 +205,9 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
  
         if collectionView == dayHoursWeatherCollectionView {
-            return CGSize(width: 150, height: collectionView.frame.size.height)
+            return CGSize(width: daysCollectionView.frame.width - 15, height: collectionView.frame.size.height)
         } else {
-            return CGSize(width: 200, height: collectionView.frame.size.height)
+            return CGSize(width: collectionView.frame.width, height: 100)
         }
         
     }
