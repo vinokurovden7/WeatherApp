@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "8T1-1G-FQK"; */
+"8T1-1G-FQK.text" = "Label";
+
+/* Class = "UILabel"; text = "Температура"; ObjectID = "WHO-tZ-B1m"; */
+"WHO-tZ-B1m.text" = "Температура";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ZoT-hB-WLE"; */
+"ZoT-hB-WLE.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "vTl-LV-4CB"; */
+"vTl-LV-4CB.text" = "Label";
+
+/* Class = "UILabel"; text = "Вероятность осадков"; ObjectID = "vVk-lo-qLm"; */
+"vVk-lo-qLm.text" = "Вероятность осадков";

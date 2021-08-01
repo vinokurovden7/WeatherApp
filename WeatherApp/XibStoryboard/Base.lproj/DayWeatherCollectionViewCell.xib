@@ -122,7 +122,7 @@
     <resources>
         <image name="rain-snow-showers-day" width="500" height="495"/>
         <namedColor name="BackgroundCollectionViewCell">
-            <color red="0.59320884943008423" green="0.86886972188949585" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.59299999475479126" green="0.86900001764297485" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="TextColor">
             <color red="0.31799998879432678" green="0.41600000858306885" blue="0.54900002479553223" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

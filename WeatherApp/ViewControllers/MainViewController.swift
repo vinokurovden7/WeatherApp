@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class MainViewController: UIViewController {
 
@@ -21,43 +22,65 @@ class MainViewController: UIViewController {
     @IBOutlet weak var daysCollectionView: UICollectionView!
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var locationButton: UIButton!
     
     //MARK: Variables
-    private var weatherViewModel: WeatherViewModel?
+    private var weatherViewModel: WeatherViewModelType?
     private var selectedDayIndex: Int?
     private let tapScrollViewGesture = UITapGestureRecognizer()
+    private let locationMagaer = LocationManager()
+    private var daysCollectionViewDelgate: DaysCollectionViewDelgate?
+    private var dayHoursWeatherCollectionViewDelegate: DayHoursWeatherCollectionViewDelegate?
     
     //MARK: Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityIndicator.startAnimating()
         firstSetup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let cityName = cityLabel.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
-            print(cityName)
-            getWeather(from: cityName)
+        
+        if let weatherViewModel = weatherViewModel {
+            daysCollectionViewDelgate = DaysCollectionViewDelgate(weatherViewModel: weatherViewModel, dayHoursWeatherCollectionView: dayHoursWeatherCollectionView)
+            dayHoursWeatherCollectionViewDelegate = DayHoursWeatherCollectionViewDelegate(weatherViewModel: weatherViewModel)
         }
+        
+        dayHoursWeatherCollectionView.delegate = dayHoursWeatherCollectionViewDelegate
+        dayHoursWeatherCollectionView.dataSource = dayHoursWeatherCollectionViewDelegate
+        daysCollectionView.delegate = daysCollectionViewDelgate
+        daysCollectionView.dataSource = daysCollectionViewDelgate
+        daysCollectionView.allowsMultipleSelection = false
+        
+        if cityLabel.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
+            getWeather(from: nil)
+        } else {
+            getWeather(from: cityLabel.text)
+        }
+    }
+    
+    //MARK: IBActions:
+    @IBAction func locationButtonAction(_ sender: UIButton) {
+        locationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        getWeather(from: nil)
     }
     
     //MARK: Custom func
     fileprivate func firstSetup() {
+        hideAllElements()
+        NotificationCenter.default.addObserver(self, selector: #selector(locationManagerChangeAutorizationStatus), name: .locationNotification, object: nil)
+        
         tapScrollViewGesture.numberOfTapsRequired = 1
         tapScrollViewGesture.numberOfTouchesRequired = 1
         tapScrollViewGesture.addTarget(self, action: #selector(touchOnScrollView(_:)))
-        //        mainScrollView.addGestureRecognizer(tapScrollViewGesture)
         
         citySearchBar.delegate = self
         
-        daysCollectionView.delegate = self
-        daysCollectionView.dataSource = self
+        weatherViewModel = WeatherViewModel()
+ 
         let daysCollectionViewNib = UINib(nibName: String(describing: DaysCollectionViewCell.self), bundle: nil)
         daysCollectionView.register(daysCollectionViewNib, forCellWithReuseIdentifier: DaysCollectionViewCell.identifier)
         
-        dayHoursWeatherCollectionView.delegate = self
-        dayHoursWeatherCollectionView.dataSource = self
         let collectionViewNib = UINib(nibName: String(describing: DayWeatherCollectionViewCell.self), bundle: nil)
         dayHoursWeatherCollectionView.register(collectionViewNib, forCellWithReuseIdentifier: DayWeatherCollectionViewCell.identifier)
         
@@ -69,29 +92,65 @@ class MainViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleHideKeyboard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        weatherViewModel = WeatherViewModel()
-        getWeather()
+        
+        
     }
     
-    private func getWeather(from city: String = "Нижняя Тура") {
+    private func getWeather(from city: String?) {
+        activityIndicator.startAnimating()
         guard let weatherViewModel = weatherViewModel else {
             return
         }
-        weatherViewModel.getWeather(from: city) {
-            DispatchQueue.main.async {
-                self.imageWeather.image = UIImage(named: weatherViewModel.getImageToday())
-                self.temperatureLabel.text = weatherViewModel.getTempToday()["temp"]
-                self.fellsLikeLabel.text = weatherViewModel.getTempToday()["feelslike"]
-                self.cityLabel.text = weatherViewModel.getCity()
-                self.conditionsLabel.text = weatherViewModel.getConditions()
-                self.selectedDayIndex = nil
+        weatherViewModel.getWeather(from: city) { isSuccess in
+            if isSuccess {
+                DispatchQueue.main.async {
+                    self.imageWeather.image = UIImage(named: weatherViewModel.getImageToday())
+                    self.temperatureLabel.text = weatherViewModel.getTempToday()["temp"]
+                    self.fellsLikeLabel.text = weatherViewModel.getTempToday()["feelslike"]
+                    self.cityLabel.text = "\(NSLocalizedString("definingACity", comment: ""))..."
+                    weatherViewModel.getCity(completion: { cityName in
+                        self.cityLabel.text = cityName
+                    })
+                    self.conditionsLabel.text = weatherViewModel.getConditions()
+                    self.selectedDayIndex = nil
+                    self.activityIndicator.stopAnimating()
+                    self.dopParamWeatherTableView.reloadData()
+                    self.dayHoursWeatherCollectionView.reloadData()
+                    self.daysCollectionView.reloadData()
+                }
+                self.showAllElements()
+            } else {
                 self.activityIndicator.stopAnimating()
-                self.dopParamWeatherTableView.reloadData()
-                self.dayHoursWeatherCollectionView.reloadData()
-                self.daysCollectionView.reloadData()
             }
         }
     }
+    
+    private func showAllElements() {
+        DispatchQueue.main.async {
+            self.cityLabel.isHidden = false
+            self.imageWeather.isHidden = false
+            self.temperatureLabel.isHidden = false
+            self.conditionsLabel.isHidden = false
+            self.fellsLikeLabel.isHidden = false
+            self.dopParamWeatherTableView.isHidden = false
+            self.dayHoursWeatherCollectionView.isHidden = false
+            self.daysCollectionView.isHidden = false
+        }
+    }
+    
+    private func hideAllElements() {
+        DispatchQueue.main.async {
+            self.cityLabel.isHidden = true
+            self.imageWeather.isHidden = true
+            self.temperatureLabel.isHidden = true
+            self.conditionsLabel.isHidden = true
+            self.fellsLikeLabel.isHidden = true
+            self.dopParamWeatherTableView.isHidden = true
+            self.dayHoursWeatherCollectionView.isHidden = true
+            self.daysCollectionView.isHidden = true
+        }
+    }
+    
     
     //MARK: OBJC func
     @objc private func touchOnScrollView(_ sneder: UITapGestureRecognizer) {
@@ -107,6 +166,19 @@ class MainViewController: UIViewController {
     
     @objc private func handleHideKeyboard(_ notification: Notification) {
         mainScrollView.contentInset = .zero
+    }
+    
+    @objc private func locationManagerChangeAutorizationStatus(_ notification: Notification) {
+        if let userInfo = notification.userInfo, let authorizationStatus = userInfo["authorizationStatus"] as? CLAuthorizationStatus {
+            switch authorizationStatus {
+                case .denied, .notDetermined, .restricted:
+                    hideAllElements()
+                    return
+                default:
+                    showAllElements()
+                    getWeather(from: nil)
+            }
+        }
     }
 }
 
@@ -154,69 +226,71 @@ extension MainViewController: UISearchBarDelegate {
         }
         getWeather(from: city)
         searchTextBar.text = ""
+        locationButton.setImage(UIImage(systemName: "location"), for: .normal)
         view.endEditing(false)
     }
     
 }
 
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == dayHoursWeatherCollectionView {
-            guard let weatherViewModel = weatherViewModel, let day = weatherViewModel.getDay(from: selectedDayIndex ?? 0) else {
-                return 0
-            }
-            return weatherViewModel.getHoursStatistics(from: day).count
-        } else {
-            guard let weatherViewModel = weatherViewModel else {
-                return 0
-            }
-            return weatherViewModel.getDays().count
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == dayHoursWeatherCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DayWeatherCollectionViewCell.identifier, for: indexPath) as? DayWeatherCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            if let weatherViewModel = weatherViewModel, let day = weatherViewModel.getDay(from: selectedDayIndex ?? 0) {
-                cell.setupWith(dayWeather: weatherViewModel.getHoursStatistics(from: day)[indexPath.row])
-            }
-            return cell
-        } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DaysCollectionViewCell.identifier, for: indexPath) as? DaysCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            if selectedDayIndex == nil {
-                let firstIndexPath = IndexPath(row: 0, section: 0)
-                collectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .top)
-                selectedDayIndex = 0
-            }
-            
-            cell.selectedCell(cellIsSelected: indexPath.row == selectedDayIndex)
-            
-            if let weatherViewModel = weatherViewModel {
-                cell.setup(from: weatherViewModel.getDays()[indexPath.row])
-            }
-            return cell
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
- 
-        if collectionView == dayHoursWeatherCollectionView {
-            return CGSize(width: daysCollectionView.frame.width - 15, height: collectionView.frame.size.height)
-        } else {
-            return CGSize(width: collectionView.frame.width, height: 100)
-        }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == daysCollectionView {
-            self.selectedDayIndex = indexPath.row
-            dayHoursWeatherCollectionView.reloadData()
-        }
-    }
-    
-}
+//extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        if collectionView == dayHoursWeatherCollectionView {
+//            guard let weatherViewModel = weatherViewModel, let day = weatherViewModel.getDay(from: selectedDayIndex ?? 0) else {
+//                return 0
+//            }
+//            return weatherViewModel.getHoursStatistics(from: day).count
+//        } else {
+//            guard let weatherViewModel = weatherViewModel else {
+//                return 0
+//            }
+//            return weatherViewModel.getDays().count
+//        }
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        if collectionView == dayHoursWeatherCollectionView {
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DayWeatherCollectionViewCell.identifier, for: indexPath) as? DayWeatherCollectionViewCell else {
+//                return UICollectionViewCell()
+//            }
+//            if let weatherViewModel = weatherViewModel, let day = weatherViewModel.getDay(from: selectedDayIndex ?? 0) {
+//                cell.setupWith(dayWeather: weatherViewModel.getHoursStatistics(from: day)[indexPath.row])
+//            }
+//            return cell
+//        } else {
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DaysCollectionViewCell.identifier, for: indexPath) as? DaysCollectionViewCell else {
+//                return UICollectionViewCell()
+//            }
+//            if selectedDayIndex == nil {
+//                let firstIndexPath = IndexPath(row: 0, section: 0)
+//                collectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .top)
+//                selectedDayIndex = 0
+//            }
+//
+//            cell.selectedCell(cellIsSelected: indexPath.row == selectedDayIndex)
+//
+//            if let weatherViewModel = weatherViewModel {
+//                cell.setup(from: weatherViewModel.getDays()[indexPath.row])
+//            }
+//            return cell
+//        }
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        if collectionView == dayHoursWeatherCollectionView {
+//            return CGSize(width: daysCollectionView.frame.width - 15, height: collectionView.frame.size.height)
+//        } else {
+//            return CGSize(width: collectionView.frame.width, height: 100)
+//        }
+//
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        if collectionView == daysCollectionView {
+//            self.selectedDayIndex = indexPath.row
+//            dayHoursWeatherCollectionView.reloadData()
+//        }
+//    }
+//
+//}
+

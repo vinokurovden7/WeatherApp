@@ -1,0 +1,21 @@
+
+/* Class = "UILabel"; text = "1000 мПа"; ObjectID = "1OX-WZ-KdD"; */
+"1OX-WZ-KdD.text" = "1000 mPa";
+
+/* Class = "UILabel"; text = "Давление"; ObjectID = "FI7-41-o5x"; */
+"FI7-41-o5x.text" = "Pressure";
+
+/* Class = "UILabel"; text = "09:00"; ObjectID = "P6e-uL-TYo"; */
+"P6e-uL-TYo.text" = "09:00";
+
+/* Class = "UILabel"; text = "Температура"; ObjectID = "bAX-LQ-40D"; */
+"bAX-LQ-40D.text" = "Temp";
+
+/* Class = "UILabel"; text = "28°"; ObjectID = "c1E-Nb-SOB"; */
+"c1E-Nb-SOB.text" = "28°";
+
+/* Class = "UILabel"; text = "20%"; ObjectID = "db9-Ku-qH3"; */
+"db9-Ku-qH3.text" = "20%";
+
+/* Class = "UILabel"; text = "Вероятность осадков"; ObjectID = "nSQ-Z6-X2z"; */
+"nSQ-Z6-X2z.text" = "Chance of precipitation";

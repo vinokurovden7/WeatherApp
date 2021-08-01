@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class WeatherViewModel {
+class WeatherViewModel: WeatherViewModelType {
     
     var weatherData: WeatherData?
     
@@ -15,21 +15,35 @@ class WeatherViewModel {
     ///   - city: Город, для которого нужно получить погоду
     ///   - completion: замыкание
     /// - Returns: Полученные данные о погоде
-    func getWeather(from city: String = "Нижняя Тура", completion: @escaping () -> ()) {
+    func getWeather(from city: String?, completion: @escaping (Bool) -> ()) {
         let networkManager = NetworkManager()
-        networkManager.getWeather(from: city) { weatherData in
-            self.weatherData = weatherData
-            completion()
+        if let city = city {
+            networkManager.getWeather(from: city) { weatherData in
+                self.weatherData = weatherData
+                completion(true)
+            }
+        } else {
+            let locationManager = LocationManager()
+            let latitude = locationManager.getCurrentLocation().latitude
+            let longitude = locationManager.getCurrentLocation().longitude
+            switch locationManager.getLocationAutorizationStatus() {
+                case .denied, .notDetermined, .restricted:
+                    completion(false)
+                default:
+                    networkManager.getWeather(from: (latitude: latitude, longitude: longitude)) { weatherData in
+                        self.weatherData = weatherData
+                        completion(true)
+                    }
+            }
         }
     }
-    
     
     /// Получить скорость ветра
     /// - Returns: Скорость ветра
     func getWindSpeedToday() -> String {
         if let weatherData = weatherData {
             if let windSpeed = weatherData.currentConditions.windspeed {
-                return "\(Int(windSpeed)) km/h"
+                return "\(Int(windSpeed)) \(NSLocalizedString("km/h", comment: ""))"
             } else {
                 return "No info"
             }
@@ -44,7 +58,7 @@ class WeatherViewModel {
         var todayWeatherTepmDictionary: [String:String] = [:]
         if let weatherData = weatherData {
             todayWeatherTepmDictionary["temp"] = "\(Int(weatherData.currentConditions.temp))°"
-            todayWeatherTepmDictionary["feelslike"] = "Ощущается как \(Int(weatherData.currentConditions.feelslike))°"
+            todayWeatherTepmDictionary["feelslike"] = " \(NSLocalizedString("FeelsLike", comment: "")) \(Int(weatherData.currentConditions.feelslike))°"
         }
         return todayWeatherTepmDictionary
     }
@@ -84,7 +98,7 @@ class WeatherViewModel {
     func getVisisbility() -> String {
         if let weatherData = weatherData {
             if let visibility = weatherData.currentConditions.visibility {
-                return "\(Int(visibility)) km"
+                return "\(Int(visibility)) \(NSLocalizedString("km", comment: ""))"
             } else {
                 return "No info"
             }
@@ -109,11 +123,16 @@ class WeatherViewModel {
     
     /// Получить название города, относительно которого отображаются данные
     /// - Returns: Наименование города
-    func getCity() -> String {
+    func getCity(completion: @escaping (String) -> Void) {
         if let weatherData = weatherData {
-            return "\(weatherData.address)"
-        } else {
-            return ""
+            if weatherData.address.contains(",") {
+                let locationManager = LocationManager()
+                locationManager.getStringAddress { locationCityName in
+                    completion(locationCityName)
+                }
+            } else {
+                completion("\(weatherData.address)")
+            }
         }
     }
     

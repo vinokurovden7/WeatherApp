@@ -44,7 +44,7 @@ class DayWeatherCollectionViewCell: UICollectionViewCell {
         }
         
         if let pressure = dayWeather.pressure {
-            pressureLabel.text = "\(Int(pressure * 0.750062)) мм рт ст"
+            pressureLabel.text = "\(Int(pressure * 0.750062)) \(NSLocalizedString("millimetersOfMercury", comment: ""))"
         }
     }
 

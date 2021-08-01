@@ -54,4 +54,44 @@ class NetworkManager {
         task.resume()
     }
     
+    func getWeather(from coordinates: (latitude: Double, longitude: Double), completion: @escaping (WeatherData) -> ()) {
+        let path = "/VisualCrossingWebServices/rest/services/timeline/\(coordinates.latitude),\(coordinates.longitude)"
+        let unitGroupQueryItem = URLQueryItem(name: "unitGroup", value: "metric")
+        let keyQueryItem = URLQueryItem(name: "key", value: apiKey)
+        var urlComponents = URLComponents()
+        urlComponents.scheme = scheme
+        urlComponents.host = host
+        urlComponents.path = path
+        urlComponents.queryItems = [unitGroupQueryItem, keyQueryItem]
+        guard let url = urlComponents.url else {
+            return
+        }
+        let myRequest = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: myRequest) { data, _, error in
+            if let error = error {
+                print("Ошибка при выполнении запроса: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data else {
+                print("Отсутствует данные в ответе")
+                return
+            }
+            
+            
+            
+            do {
+                let weatherData = try JSONDecoder().decode(WeatherData.self, from: data)
+                completion(weatherData)
+            } catch {
+                print("Ошибка при парсинге данных: \(error.localizedDescription)")
+                let dict = try? JSONSerialization.jsonObject(with: data, options: [])
+                print(dict)
+            }
+        }
+        
+        task.resume()
+    }
+    
 }

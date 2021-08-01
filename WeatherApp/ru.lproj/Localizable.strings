@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by Денис Винокуров on 26.07.2021.
+  
+*/
+
+"FeelsLike" = "Ощущается как";
+"Today" = "Сегодня";
+"km/h" = "км/ч";
+"km" = "км";
+"millimetersOfMercury" = "мм рт ст";
+"definingACity" = "Определение города";

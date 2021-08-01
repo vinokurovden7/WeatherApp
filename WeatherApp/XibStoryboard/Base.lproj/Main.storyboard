@@ -61,7 +61,7 @@
                                                 </constraints>
                                             </tableView>
                                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Введите город" translatesAutoresizingMaskIntoConstraints="NO" id="AXv-QF-sjt">
-                                                <rect key="frame" x="0.0" y="10" width="414" height="51"/>
+                                                <rect key="frame" x="47" y="10" width="367" height="51"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -92,16 +92,32 @@
                                                 </collectionViewFlowLayout>
                                                 <cells/>
                                             </collectionView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qbk-XU-RkH">
+                                                <rect key="frame" x="20" y="22" width="27" height="27"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Qbk-XU-RkH" secondAttribute="height" multiplier="1:1" id="EUY-eE-Yr1"/>
+                                                    <constraint firstAttribute="width" constant="27" id="mMV-hY-CMy"/>
+                                                </constraints>
+                                                <color key="tintColor" name="TextColor"/>
+                                                <state key="normal" image="location.fill" catalog="system">
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="27" weight="heavy"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="locationButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fS3-qk-H9I"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" name="BackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="4sU-xr-weJ" firstAttribute="width" secondItem="EpZ-79-JYt" secondAttribute="width" id="0pI-di-Dov"/>
-                                            <constraint firstItem="AXv-QF-sjt" firstAttribute="leading" secondItem="Otn-iB-fdf" secondAttribute="leading" id="3aS-hl-vi4"/>
                                             <constraint firstItem="AXA-K5-RvF" firstAttribute="leading" secondItem="XeY-Kt-vmV" secondAttribute="trailing" id="5GE-sg-bhb"/>
                                             <constraint firstItem="aA4-LU-xbd" firstAttribute="top" secondItem="4sU-xr-weJ" secondAttribute="bottom" constant="20" id="5eH-L9-0W8"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="aA4-LU-xbd" secondAttribute="trailing" constant="20" id="7KZ-Ug-4sY"/>
                                             <constraint firstAttribute="trailing" secondItem="2SM-zN-xZS" secondAttribute="trailing" constant="20" id="96U-PM-n1L"/>
+                                            <constraint firstItem="AXv-QF-sjt" firstAttribute="leading" secondItem="Qbk-XU-RkH" secondAttribute="trailing" id="D6q-p4-QcM"/>
+                                            <constraint firstItem="Qbk-XU-RkH" firstAttribute="centerY" secondItem="AXv-QF-sjt" secondAttribute="centerY" id="Dr2-ZZ-QBj"/>
                                             <constraint firstItem="QMb-rW-T2M" firstAttribute="leading" secondItem="Otn-iB-fdf" secondAttribute="leading" id="F3Z-Y0-gSa"/>
+                                            <constraint firstItem="Qbk-XU-RkH" firstAttribute="leading" secondItem="Otn-iB-fdf" secondAttribute="leading" constant="20" id="Knk-PM-AFB"/>
                                             <constraint firstItem="acF-al-cae" firstAttribute="centerX" secondItem="Otn-iB-fdf" secondAttribute="centerX" id="Oj5-PR-glP"/>
                                             <constraint firstAttribute="bottom" secondItem="QMb-rW-T2M" secondAttribute="bottom" constant="20" symbolic="YES" id="Qdk-UO-qPr"/>
                                             <constraint firstItem="2SM-zN-xZS" firstAttribute="leading" secondItem="EpZ-79-JYt" secondAttribute="trailing" constant="73" id="VvH-OR-lnh"/>
@@ -117,6 +133,7 @@
                                             <constraint firstItem="2SM-zN-xZS" firstAttribute="top" secondItem="acF-al-cae" secondAttribute="bottom" constant="20" id="dP6-65-V4b"/>
                                             <constraint firstItem="4sU-xr-weJ" firstAttribute="top" secondItem="EpZ-79-JYt" secondAttribute="bottom" constant="20" id="eEK-zs-NgD"/>
                                             <constraint firstItem="aA4-LU-xbd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Otn-iB-fdf" secondAttribute="leading" constant="20" id="egW-1o-sST"/>
+                                            <constraint firstItem="Qbk-XU-RkH" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Otn-iB-fdf" secondAttribute="top" constant="20" id="iuY-se-5pb"/>
                                             <constraint firstItem="aA4-LU-xbd" firstAttribute="centerX" secondItem="Otn-iB-fdf" secondAttribute="centerX" id="jfc-ga-BIF"/>
                                             <constraint firstAttribute="trailing" secondItem="AXv-QF-sjt" secondAttribute="trailing" id="jiB-b8-gF1"/>
                                             <constraint firstItem="XeY-Kt-vmV" firstAttribute="top" secondItem="aA4-LU-xbd" secondAttribute="bottom" constant="20" id="qSp-LL-lVf"/>
@@ -166,6 +183,7 @@
                         <outlet property="dopParamWeatherTableView" destination="XeY-Kt-vmV" id="eNx-MX-6Mx"/>
                         <outlet property="fellsLikeLabel" destination="aA4-LU-xbd" id="UV0-gH-YF0"/>
                         <outlet property="imageWeather" destination="EpZ-79-JYt" id="Trj-FM-2s5"/>
+                        <outlet property="locationButton" destination="Qbk-XU-RkH" id="xL7-l5-Ve2"/>
                         <outlet property="mainScrollView" destination="V0a-su-sGI" id="8cD-uJ-g7L"/>
                         <outlet property="temperatureLabel" destination="2SM-zN-xZS" id="P7M-D3-bDs"/>
                     </connections>
@@ -176,8 +194,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="location.fill" catalog="system" width="32" height="32"/>
         <namedColor name="BackgroundColor">
-            <color red="0.62352941176470589" green="0.83529411764705885" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.62400001287460327" green="0.83499997854232788" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="TextColor">
             <color red="0.31799998879432678" green="0.41600000858306885" blue="0.54900002479553223" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
