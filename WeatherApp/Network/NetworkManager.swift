@@ -87,7 +87,7 @@ class NetworkManager {
             } catch {
                 print("Ошибка при парсинге данных: \(error.localizedDescription)")
                 let dict = try? JSONSerialization.jsonObject(with: data, options: [])
-                print(dict)
+                print("\(dict ?? "")")
             }
         }
         
