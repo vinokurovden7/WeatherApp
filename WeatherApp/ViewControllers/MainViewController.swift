@@ -7,10 +7,10 @@
 
 import UIKit
 import CoreLocation
-
+// swiftlint:disable weak_delegate
 class MainViewController: UIViewController {
 
-    //MARK: IBOutlest
+    // MARK: IBOutlest
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var imageWeather: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -24,15 +24,15 @@ class MainViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var locationButton: UIButton!
 
-    //MARK: Variables
+    // MARK: Variables
     private var weatherViewModel: WeatherViewModelType?
     private var selectedDayIndex: Int?
     private let tapScrollViewGesture = UITapGestureRecognizer()
     private let locationMagaer = LocationManager()
-    private var daysCollectionViewDelgate: DaysCollectionViewDelgate?
-    private var dayHoursWeatherCollectionViewDelegate: DayHoursWeatherCollectionViewDelegate?
+    private var daysCollectionViewDelegate: DaysCollectionViewDelgate?
+    private var dayHoursCollectionViewDelegate: DayHoursWeatherCollectionViewDelegate?
 
-    //MARK: Life cycles
+    // MARK: Life cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         firstSetup()
@@ -42,14 +42,15 @@ class MainViewController: UIViewController {
         super.viewWillAppear(animated)
 
         if let weatherViewModel = weatherViewModel {
-            daysCollectionViewDelgate = DaysCollectionViewDelgate(weatherViewModel: weatherViewModel, dayHoursWeatherCollectionView: dayHoursWeatherCollectionView)
-            dayHoursWeatherCollectionViewDelegate = DayHoursWeatherCollectionViewDelegate(weatherViewModel: weatherViewModel)
+            daysCollectionViewDelegate = DaysCollectionViewDelgate(weatherViewModel: weatherViewModel,
+                                                                  dayHoursCollectionView: dayHoursWeatherCollectionView)
+            dayHoursCollectionViewDelegate = DayHoursWeatherCollectionViewDelegate(weatherViewModel: weatherViewModel)
         }
 
-        dayHoursWeatherCollectionView.delegate = dayHoursWeatherCollectionViewDelegate
-        dayHoursWeatherCollectionView.dataSource = dayHoursWeatherCollectionViewDelegate
-        daysCollectionView.delegate = daysCollectionViewDelgate
-        daysCollectionView.dataSource = daysCollectionViewDelgate
+        dayHoursWeatherCollectionView.delegate = dayHoursCollectionViewDelegate
+        dayHoursWeatherCollectionView.dataSource = dayHoursCollectionViewDelegate
+        daysCollectionView.delegate = daysCollectionViewDelegate
+        daysCollectionView.dataSource = daysCollectionViewDelegate
         daysCollectionView.allowsMultipleSelection = false
 
         if cityLabel.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
@@ -59,16 +60,19 @@ class MainViewController: UIViewController {
         }
     }
 
-    //MARK: IBActions:
+    // MARK: IBActions:
     @IBAction func locationButtonAction(_ sender: UIButton) {
         locationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
         getWeather(from: nil)
     }
 
-    //MARK: Custom func
+    // MARK: Custom func
     fileprivate func firstSetup() {
         hideAllElements()
-        NotificationCenter.default.addObserver(self, selector: #selector(locationManagerChangeAutorizationStatus), name: .locationNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(locationManagerChangeAutorizationStatus),
+                                               name: .locationNotification,
+                                               object: nil)
 
         tapScrollViewGesture.numberOfTapsRequired = 1
         tapScrollViewGesture.numberOfTouchesRequired = 1
@@ -79,18 +83,27 @@ class MainViewController: UIViewController {
         weatherViewModel = WeatherViewModel()
 
         let daysCollectionViewNib = UINib(nibName: String(describing: DaysCollectionViewCell.self), bundle: nil)
-        daysCollectionView.register(daysCollectionViewNib, forCellWithReuseIdentifier: DaysCollectionViewCell.identifier)
+        daysCollectionView.register(daysCollectionViewNib,
+                                    forCellWithReuseIdentifier: DaysCollectionViewCell.identifier)
 
         let collectionViewNib = UINib(nibName: String(describing: DayWeatherCollectionViewCell.self), bundle: nil)
-        dayHoursWeatherCollectionView.register(collectionViewNib, forCellWithReuseIdentifier: DayWeatherCollectionViewCell.identifier)
+        dayHoursWeatherCollectionView.register(collectionViewNib,
+                                               forCellWithReuseIdentifier: DayWeatherCollectionViewCell.identifier)
 
         let tableViewNib = UINib(nibName: String(describing: TodayParamWeatherTableViewCell.self), bundle: nil)
-        dopParamWeatherTableView.register(tableViewNib, forCellReuseIdentifier: TodayParamWeatherTableViewCell.identifier)
+        dopParamWeatherTableView.register(tableViewNib,
+                                          forCellReuseIdentifier: TodayParamWeatherTableViewCell.identifier)
         dopParamWeatherTableView.delegate = self
         dopParamWeatherTableView.dataSource = self
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleShowKeyboard(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleHideKeyboard(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleShowKeyboard(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleHideKeyboard(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
 
     }
 
@@ -149,7 +162,7 @@ class MainViewController: UIViewController {
         }
     }
 
-    //MARK: OBJC func
+    // MARK: OBJC func
     @objc private func touchOnScrollView(_ sneder: UITapGestureRecognizer) {
         self.view.endEditing(false)
     }
@@ -166,14 +179,15 @@ class MainViewController: UIViewController {
     }
 
     @objc private func locationManagerChangeAutorizationStatus(_ notification: Notification) {
-        if let userInfo = notification.userInfo, let authorizationStatus = userInfo["authorizationStatus"] as? CLAuthorizationStatus {
+        if let userInfo = notification.userInfo,
+           let authorizationStatus = userInfo["authorizationStatus"] as? CLAuthorizationStatus {
             switch authorizationStatus {
-                case .denied, .notDetermined, .restricted:
-                    hideAllElements()
-                    return
-                default:
-                    showAllElements()
-                    getWeather(from: nil)
+            case .denied, .notDetermined, .restricted:
+                hideAllElements()
+                return
+            default:
+                showAllElements()
+                getWeather(from: nil)
             }
         }
     }
@@ -184,12 +198,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let weatherViewModel = weatherViewModel else {
             return 0
         }
-        
+
         return weatherViewModel.getCountParam()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TodayParamWeatherTableViewCell.identifier) as? TodayParamWeatherTableViewCell else {
+        let idelntifier = TodayParamWeatherTableViewCell.identifier
+        let dequeueReusableCell = tableView.dequeueReusableCell(withIdentifier: idelntifier)
+        guard let cell = dequeueReusableCell as? TodayParamWeatherTableViewCell else {
             return UITableViewCell()
         }
         if let weatherViewModel = weatherViewModel {
@@ -198,7 +214,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
         return cell
     }
-    
+
 }
 
 extension MainViewController: UISearchBarDelegate {

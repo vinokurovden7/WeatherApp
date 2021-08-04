@@ -15,22 +15,22 @@ class DayWeatherCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var chanceOfPrecipitationDayWeatherLabel: UILabel!
     @IBOutlet weak var mainContentView: UIView!
     @IBOutlet weak var pressureLabel: UILabel!
-    
+
     static let identifier = "DayWeatherCollectionViewCell"
-    
+
     var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         return dateFormatter
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         mainContentView.layer.cornerRadius = 20
         mainContentView.layer.borderWidth = 1
         mainContentView.layer.borderColor = UIColor(named: "TextColor")?.cgColor
     }
-    
+
     func setupWith(dayWeather: Hours) {
         timeDayWeatherLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: dayWeather.datetimeEpoch))
         if let imageName = dayWeather.icon {
@@ -42,7 +42,7 @@ class DayWeatherCollectionViewCell: UICollectionViewCell {
         if let precipprob = dayWeather.precipprob {
             chanceOfPrecipitationDayWeatherLabel.text = "\(Int(precipprob))%"
         }
-        
+
         if let pressure = dayWeather.pressure {
             pressureLabel.text = "\(Int(pressure * 0.750062)) \(NSLocalizedString("millimetersOfMercury", comment: ""))"
         }

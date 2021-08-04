@@ -16,35 +16,37 @@ class DaysCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var chanceOfPrecipitationLabel: UILabel!
     @IBOutlet weak var tempPlaceHolderLabel: UILabel!
     @IBOutlet weak var chancePlaceHolderLabel: UILabel!
-    
+
     static let identifier = "DaysCollectionViewCell"
-    
+
     override var isSelected: Bool {
         didSet {
             selectedCell()
         }
     }
-    
+
     var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM"
         return dateFormatter
     }
-    
+
     var checkedDateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYYMMDD"
         return dateFormatter
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundContentView.layer.cornerRadius = 20
         backgroundContentView.layer.borderWidth = 1
     }
-    
+
     func setup(from day: Days) {
-        if checkedDateFormatter.string(from: Date()) == checkedDateFormatter.string(from: Date(timeIntervalSince1970: day.datetimeEpoch)) {
+        let todayDay = checkedDateFormatter.string(from: Date())
+        let weatherDaty = checkedDateFormatter.string(from: Date(timeIntervalSince1970: day.datetimeEpoch))
+        if todayDay == weatherDaty {
             dayLabel.text = "\(NSLocalizedString("Today", comment: ""))"
         } else {
             dayLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: day.datetimeEpoch))
@@ -52,10 +54,8 @@ class DaysCollectionViewCell: UICollectionViewCell {
         imageWeather.image = UIImage(named: day.icon)
         maxMinTempLabel.text = "\(Int(day.tempmin))° - \(Int(day.tempmax))°"
         chanceOfPrecipitationLabel.text = "\(Int(day.precipprob ?? 0)) %"
-        
-//        selectedCell(cellIsSelected: cellIsSelected)
     }
-    
+
     func selectedCell() {
         if self.isSelected {
             DispatchQueue.main.async {

@@ -8,9 +8,6 @@
 import Foundation
 
 class Shared {
-    
     static let shared = Shared()
-    
     var sharedSelectedDayIndex: Int?
-    
 }
