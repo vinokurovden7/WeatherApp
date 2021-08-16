@@ -23,14 +23,18 @@ class MainViewController: UIViewController {
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var locationButton: UIButton!
+    @IBOutlet weak var mainContentView: UIView!
 
     // MARK: Variables
-    private var weatherViewModel: WeatherViewModelType?
+    var weatherViewModel: WeatherViewModelType?
+    var cityViewModel: CityViewModelType?
     private var selectedDayIndex: Int?
     private let tapScrollViewGesture = UITapGestureRecognizer()
     private let locationMagaer = LocationManager()
     private var daysCollectionViewDelegate: DaysCollectionViewDelgate?
     private var dayHoursCollectionViewDelegate: DayHoursWeatherCollectionViewDelegate?
+    private var cityTableViewDelegate: CityTableViewDelegate?
+    var cityTableView = UITableView()
 
     // MARK: Life cycles
     override func viewDidLoad() {
@@ -47,11 +51,17 @@ class MainViewController: UIViewController {
             dayHoursCollectionViewDelegate = DayHoursWeatherCollectionViewDelegate(weatherViewModel: weatherViewModel)
         }
 
+        if let cityViewModel = cityViewModel {
+            cityTableViewDelegate = CityTableViewDelegate(cityViewModel: cityViewModel, viewController: self)
+        }
+
         dayHoursWeatherCollectionView.delegate = dayHoursCollectionViewDelegate
         dayHoursWeatherCollectionView.dataSource = dayHoursCollectionViewDelegate
         daysCollectionView.delegate = daysCollectionViewDelegate
         daysCollectionView.dataSource = daysCollectionViewDelegate
         daysCollectionView.allowsMultipleSelection = false
+        cityTableView.delegate = cityTableViewDelegate
+        cityTableView.dataSource = cityTableViewDelegate
 
         if cityLabel.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true {
             getWeather(from: nil)
@@ -80,6 +90,8 @@ class MainViewController: UIViewController {
 
         citySearchBar.delegate = self
 
+        cityViewModel = CityViewModel()
+
         weatherViewModel = WeatherViewModel()
 
         let daysCollectionViewNib = UINib(nibName: String(describing: DaysCollectionViewCell.self), bundle: nil)
@@ -104,11 +116,11 @@ class MainViewController: UIViewController {
                                                selector: #selector(handleHideKeyboard(_:)),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-
     }
 
-    private func getWeather(from city: String?) {
+    func getWeather(from city: String?) {
         activityIndicator.startAnimating()
+        view.endEditing(false)
         guard let weatherViewModel = weatherViewModel else {
             return
         }
@@ -162,6 +174,40 @@ class MainViewController: UIViewController {
         }
     }
 
+    func showCityTableView() {
+        if cityTableView.frame.height == 0 {
+            cityTableView.frame.origin.x = citySearchBar.frame.origin.x + 10
+            cityTableView.frame.origin.y = citySearchBar.frame.maxY
+            cityTableView.frame.size.width = citySearchBar.frame.width - 110
+            cityTableView.frame.size.height = 0
+            cityTableView.layer.cornerRadius = 20
+            cityTableView.showsVerticalScrollIndicator = false
+            cityTableView.showsHorizontalScrollIndicator = false
+            cityTableView.separatorInset.left = 0
+            cityTableView.backgroundColor = UIColor(named: "BackgroundCollectionViewCell")
+            cityTableView.separatorColor = UIColor(named: "TextColor")
+            cityTableView.layer.borderWidth = 1.0
+            cityTableView.layer.borderColor = UIColor(named: "TextColor")?.cgColor
+            mainContentView.addSubview(cityTableView)
+            UIView.animate(withDuration: 0.2) {
+                self.cityTableView.frame.size.height = 175
+            }
+        }
+    }
+
+    func hideCityTableView() {
+        UIView.animate(withDuration: 0.2) {
+            self.cityTableView.frame.size.height = 0
+        } completion: { _ in
+            self.cityTableView.removeFromSuperview()
+        }
+
+    }
+
+    func setTextInSearchBar(text: String) {
+        citySearchBar.text = text
+    }
+
     // MARK: OBJC func
     @objc private func touchOnScrollView(_ sneder: UITapGestureRecognizer) {
         self.view.endEditing(false)
@@ -198,7 +244,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let weatherViewModel = weatherViewModel else {
             return 0
         }
-
         return weatherViewModel.getCountParam()
     }
 
@@ -213,34 +258,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         }
 
         return cell
-    }
-
-}
-
-extension MainViewController: UISearchBarDelegate {
-
-    func searchBarTextDidBeginEditing(_ searchTextBar: UISearchBar) {
-        searchTextBar.setShowsCancelButton(true, animated: true)
-    }
-
-    func searchBarCancelButtonClicked(_ searchTextBar: UISearchBar) {
-        self.view.endEditing(true)
-        searchTextBar.setShowsCancelButton(false, animated: true)
-    }
-
-    func searchBarSearchButtonClicked(_ searchTextBar: UISearchBar) {
-        searchTextBar.setShowsCancelButton(false, animated: true)
-        if searchTextBar.text?.isEmpty ?? true {
-            view.endEditing(false)
-            return
-        }
-        guard let city = searchTextBar.text else {
-            return
-        }
-        getWeather(from: city)
-        searchTextBar.text = ""
-        locationButton.setImage(UIImage(systemName: "location"), for: .normal)
-        view.endEditing(false)
     }
 
 }

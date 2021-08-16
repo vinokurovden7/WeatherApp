@@ -69,4 +69,8 @@ protocol WeatherViewModelType {
     /// Получить массив дней
     /// - Returns: Массив дней
     func getDays() -> [Days]
+
+    /// Получить  массив городов
+    /// - Returns: Массив городов
+    func getSearchingCity(searchString: String) -> [String]
 }

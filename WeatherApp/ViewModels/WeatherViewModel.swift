@@ -34,7 +34,7 @@ class WeatherViewModel: WeatherViewModelType {
                 networkManager.getWeather(from: (latitude: latitude, longitude: longitude)) { weatherData in
                     self.weatherData = weatherData
                     completion(true)
-                    }
+                }
             }
         }
     }
@@ -206,6 +206,25 @@ class WeatherViewModel: WeatherViewModelType {
         } else {
             return []
         }
+    }
+
+    func getSearchingCity(searchString: String) -> [String] {
+        var searchingCityArray = [""]
+        if let dataUrl = Bundle.main.url(forResource: "city", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: dataUrl)
+                let cityData = try JSONDecoder().decode(Cities.self, from: data)
+                let cictiesArray = cityData.city.filter({ city in
+                    city.name.hasPrefix(searchString)
+                })
+                for city in cictiesArray {
+                    searchingCityArray.append(city.name)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return searchingCityArray
     }
 
 }

@@ -184,6 +184,7 @@
                         <outlet property="fellsLikeLabel" destination="aA4-LU-xbd" id="UV0-gH-YF0"/>
                         <outlet property="imageWeather" destination="EpZ-79-JYt" id="Trj-FM-2s5"/>
                         <outlet property="locationButton" destination="Qbk-XU-RkH" id="xL7-l5-Ve2"/>
+                        <outlet property="mainContentView" destination="Otn-iB-fdf" id="otw-aJ-xEg"/>
                         <outlet property="mainScrollView" destination="V0a-su-sGI" id="8cD-uJ-g7L"/>
                         <outlet property="temperatureLabel" destination="2SM-zN-xZS" id="P7M-D3-bDs"/>
                     </connections>
@@ -194,7 +195,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="location.fill" catalog="system" width="32" height="32"/>
+        <image name="location.fill" catalog="system" width="128" height="121"/>
         <namedColor name="BackgroundColor">
             <color red="0.62400001287460327" green="0.83499997854232788" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
