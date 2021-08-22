@@ -8,7 +8,7 @@
 import Foundation
 
 struct Cities: Codable {
-    let cities: [City]
+    let city: [City]
 }
 struct City: Codable {
     let name: String
