@@ -211,9 +211,9 @@
 		92482902269C03C6000D71C3 /* XibStoryboard */ = {
 			isa = PBXGroup;
 			children = (
+				920A4B612696DC8A0088279C /* Main.storyboard */,
 				92C2213F26AEC3A000FC06EF /* DaysCollectionViewCell.xib */,
 				920A4B7E269840CC0088279C /* TodayParamWeatherTableViewCell.xib */,
-				920A4B612696DC8A0088279C /* Main.storyboard */,
 				920A4B662696DC8E0088279C /* LaunchScreen.storyboard */,
 				92C2214626AEC3E700FC06EF /* DayWeatherCollectionViewCell.xib */,
 			);
