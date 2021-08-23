@@ -7,32 +7,35 @@
 
 import UIKit
 
-class DaysCollectionViewDelgate: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+class DaysCollectionViewDelgate: NSObject,
+                                 UICollectionViewDelegate,
+                                 UICollectionViewDataSource,
+                                 UICollectionViewDelegateFlowLayout {
+
     private var weatherViewModel: WeatherViewModelType?
     private var dayHoursWeatherCollectionView: UICollectionView?
-    
-    
-    init(weatherViewModel: WeatherViewModelType, dayHoursWeatherCollectionView: UICollectionView) {
+
+    init(weatherViewModel: WeatherViewModelType, dayHoursCollectionView: UICollectionView) {
         super.init()
         self.weatherViewModel = weatherViewModel
-        self.dayHoursWeatherCollectionView = dayHoursWeatherCollectionView
+        self.dayHoursWeatherCollectionView = dayHoursCollectionView
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let weatherViewModel = weatherViewModel else {
             return 0
         }
         return weatherViewModel.getDays().count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DaysCollectionViewCell.identifier, for: indexPath) as? DaysCollectionViewCell else {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let identifier = DaysCollectionViewCell.identifier
+        let dequeueReusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
+        guard let cell = dequeueReusableCell as? DaysCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
-        
-        
+
         if Shared.shared.sharedSelectedDayIndex == nil {
             let firstIndexPath = IndexPath(row: 0, section: 0)
             collectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .top)
@@ -43,18 +46,20 @@ class DaysCollectionViewDelgate: NSObject, UICollectionViewDelegate, UICollectio
                 collectionView.selectItem(at: firstIndexPath, animated: true, scrollPosition: .top)
             }
         }
-        
+
         if let weatherViewModel = weatherViewModel {
             cell.setup(from: weatherViewModel.getDays()[indexPath.row])
         }
-        
+
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 100)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let dayHoursWeatherCollectionView = dayHoursWeatherCollectionView {
             Shared.shared.sharedSelectedDayIndex = indexPath.row

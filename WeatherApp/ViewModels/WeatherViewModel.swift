@@ -6,16 +6,17 @@
 //
 
 import Foundation
+
 class WeatherViewModel: WeatherViewModelType {
-    
+
     var weatherData: WeatherData?
-    
+
     /// Получить погоду с сервера
     /// - Parameters:
     ///   - city: Город, для которого нужно получить погоду
     ///   - completion: замыкание
     /// - Returns: Полученные данные о погоде
-    func getWeather(from city: String?, completion: @escaping (Bool) -> ()) {
+    func getWeather(from city: String?, completion: @escaping (Bool) -> Void) {
         let networkManager = NetworkManager()
         if let city = city {
             networkManager.getWeather(from: city) { weatherData in
@@ -27,17 +28,17 @@ class WeatherViewModel: WeatherViewModelType {
             let latitude = locationManager.getCurrentLocation().latitude
             let longitude = locationManager.getCurrentLocation().longitude
             switch locationManager.getLocationAutorizationStatus() {
-                case .denied, .notDetermined, .restricted:
-                    completion(false)
-                default:
-                    networkManager.getWeather(from: (latitude: latitude, longitude: longitude)) { weatherData in
-                        self.weatherData = weatherData
-                        completion(true)
-                    }
+            case .denied, .notDetermined, .restricted:
+                completion(false)
+            default:
+                networkManager.getWeather(from: (latitude: latitude, longitude: longitude)) { weatherData in
+                    self.weatherData = weatherData
+                    completion(true)
+                }
             }
         }
     }
-    
+
     /// Получить скорость ветра
     /// - Returns: Скорость ветра
     func getWindSpeedToday() -> String {
@@ -51,18 +52,20 @@ class WeatherViewModel: WeatherViewModelType {
             return ""
         }
     }
-    
+
     /// Получить текущую температуру
     /// - Returns: Словарь температур
-    func getTempToday() -> [String:String] {
-        var todayWeatherTepmDictionary: [String:String] = [:]
+    func getTempToday() -> [String: String] {
+        var todayWeatherTepmDictionary: [String: String] = [:]
         if let weatherData = weatherData {
             todayWeatherTepmDictionary["temp"] = "\(Int(weatherData.currentConditions.temp))°"
-            todayWeatherTepmDictionary["feelslike"] = " \(NSLocalizedString("FeelsLike", comment: "")) \(Int(weatherData.currentConditions.feelslike))°"
+            let feelslikeString = NSLocalizedString("FeelsLike", comment: "")
+            let feelslikeData = Int(weatherData.currentConditions.feelslike)
+            todayWeatherTepmDictionary["feelslike"] = " \(feelslikeString) \(feelslikeData)°"
         }
         return todayWeatherTepmDictionary
     }
-    
+
     /// Получить изображение для текущей погоды
     /// - Returns: Наименование изображения
     func getImageToday() -> String {
@@ -72,7 +75,7 @@ class WeatherViewModel: WeatherViewModelType {
             return ""
         }
     }
-    
+
     /// Получить текстовое описание погоды
     /// - Returns: Описание погоды
     func getConditions() -> String {
@@ -82,7 +85,7 @@ class WeatherViewModel: WeatherViewModelType {
             return "No info"
         }
     }
-    
+
     /// Получить влажность
     /// - Returns: Влажность
     func getHumidity() -> String {
@@ -92,7 +95,7 @@ class WeatherViewModel: WeatherViewModelType {
             return ""
         }
     }
-    
+
     /// Получить дальность видимости
     /// - Returns: Дальность видимости
     func getVisisbility() -> String {
@@ -106,7 +109,7 @@ class WeatherViewModel: WeatherViewModelType {
             return ""
         }
     }
-    
+
     /// Получить ультрафиолетовый индекс
     /// - Returns: Ультрафиолетовый индекс
     func getUVIndex() -> String {
@@ -120,7 +123,7 @@ class WeatherViewModel: WeatherViewModelType {
             return ""
         }
     }
-    
+
     /// Получить название города, относительно которого отображаются данные
     /// - Returns: Наименование города
     func getCity(completion: @escaping (String) -> Void) {
@@ -135,55 +138,55 @@ class WeatherViewModel: WeatherViewModelType {
             }
         }
     }
-    
+
     /// Получить дополнительные параметры текущей погоды
     /// - Parameter row: Номер строки параметра
     /// - Returns: Значение дополнительного параметра
     func getDopParamWeather(for row: Int) -> String {
-        
+
         switch row {
-            case 0:
-                return getWindSpeedToday()
-            case 1:
-                return getHumidity()
-            case 2:
-                return getVisisbility()
-            case 3:
-                return getUVIndex()
-            case 4:
-                if let weatherData = weatherData {
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "HH:mm"
-                    let time = Date(timeIntervalSince1970: weatherData.currentConditions.sunriseEpoch)
-                    return "\(dateFormatter.string(from: time))"
-                }
-            case 5:
-                if let weatherData = weatherData {
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "HH:mm"
-                    let time = Date(timeIntervalSince1970: weatherData.currentConditions.sunsetEpoch)
-                    return "\(dateFormatter.string(from: time))"
-                }
-            default:
-                break
+        case 0:
+            return getWindSpeedToday()
+        case 1:
+            return getHumidity()
+        case 2:
+            return getVisisbility()
+        case 3:
+            return getUVIndex()
+        case 4:
+            if let weatherData = weatherData {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "HH:mm"
+                let time = Date(timeIntervalSince1970: weatherData.currentConditions.sunriseEpoch)
+                return "\(dateFormatter.string(from: time))"
+            }
+        case 5:
+            if let weatherData = weatherData {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "HH:mm"
+                let time = Date(timeIntervalSince1970: weatherData.currentConditions.sunsetEpoch)
+                return "\(dateFormatter.string(from: time))"
+            }
+        default:
+            break
         }
 
         return ""
     }
-    
+
     /// Получить количество дополнительных параметров о текущей погоде
     /// - Returns: Количество параметров
     func getCountParam() -> Int {
         return 6
     }
-    
+
     /// Получить массив почасовых данных
     /// - Parameter day: День, относительно которого получаются почасовые данные
     /// - Returns: Массив данных по часам
     func getHoursStatistics(from day: Days) -> [Hours] {
         return day.hours.filter({!($0.icon?.isEmpty ?? false)})
     }
-    
+
     /// Получить один день
     /// - Parameter index: индекс дня в массиве
     /// - Returns: День
@@ -194,7 +197,7 @@ class WeatherViewModel: WeatherViewModelType {
             return nil
         }
     }
-    
+
     /// Получить массив дней
     /// - Returns: Массив дней
     func getDays() -> [Days] {
@@ -204,5 +207,24 @@ class WeatherViewModel: WeatherViewModelType {
             return []
         }
     }
-    
+
+    func getSearchingCity(searchString: String) -> [String] {
+        var searchingCityArray = [""]
+        if let dataUrl = Bundle.main.url(forResource: "city", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: dataUrl)
+                let cityData = try JSONDecoder().decode(Cities.self, from: data)
+                let cictiesArray = cityData.city.filter({ city in
+                    city.name.hasPrefix(searchString)
+                })
+                for city in cictiesArray {
+                    searchingCityArray.append(city.name)
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return searchingCityArray
+    }
+
 }
